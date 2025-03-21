@@ -39,7 +39,8 @@ Add the following command to process jobs:
 ```
 
 ```
-* * * * * /usr/local/bin/php /home/YOUR_CPANEl_USERNAME/subdomains/artisan queue:work --queue=default,high --tries=3 --timeout=90 >> /dev/null 2>&1
+* * * * * /usr/local/bin/php /home/ashikahm/smart-cash.ashikahmed.net/artisan queue:work --queue=high,default --tries=3 --timeout=90 >> /dev/null 2>&1
+
 ```
 
 ### 📌 Replace YOUR_CPANEl_USERNAME with your actual cPanel username.
