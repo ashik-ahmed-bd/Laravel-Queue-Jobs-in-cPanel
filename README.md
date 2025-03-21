@@ -55,3 +55,44 @@ To check the list of failed jobs, run:
 ```
 php artisan queue:failed
 ```
+**To manually retry a failed job:**
+
+```
+php artisan queue:retry {job_id}
+```
+
+To delete all failed jobs:
+
+```
+php artisan queue:flush
+```
+
+## 5. Running a Persistent Queue Worker
+If your hosting doesn’t support Supervisor, use the following command to run the queue worker persistently in the background:
+
+```
+nohup /usr/local/bin/php /home/YOUR_CPANEl_USERNAME/public_html/artisan queue:work --queue=default,high --tries=3 --timeout=90 > /dev/null 2>&1 &
+
+```
+
+* The nohup command ensures the process continues running even if the terminal is closed.
+*  /dev/null 2>&1 & prevents output logs from filling up.
+
+## 6. Ensure Queue is Running After Server Reboots
+To ensure the queue worker restarts after a reboot, add this command to a startup script or set up another cron job:
+
+
+```
+@reboot /usr/local/bin/php /home/YOUR_CPANEl_USERNAME/public_html/artisan queue:work --queue=default,high --tries=3 --timeout=90
+
+```
+
+## 7. Additional Optimization Tips
+* Use **queue:listen** instead of **queue:work** if you want automatic queue restarts when code changes:
+
+```
+php artisan queue:listen --queue=default,high --tries=3 --timeout=90
+
+```
+* Set QUEUE_CONNECTION=redis for better performance if Redis is available.
+* Increase **timeout** and **memory_limit** if jobs take longer to execute.
